@@ -34,6 +34,16 @@ picsAvailable.push(new Image('bubblegum', 'assets/bubblegum.jpg'));
 picsAvailable.push(new Image('chair', 'assets/chair.jpg'));
 picsAvailable.push(new Image('cthulhu', 'assets/cthulhu.jpg'));
 picsAvailable.push(new Image('dog-duck', 'assets/dog-duck.jpg'));
+picsAvailable.push(new Image('dragon', 'assets/dragon.jpg'));
+picsAvailable.push(new Image('pen', 'assets/pen.jpg'));
+picsAvailable.push(new Image('pet-sweep', 'assets/pet-sweep.jpg'));
+picsAvailable.push(new Image('scissors', 'assets/scissors.jpg'));
+picsAvailable.push(new Image('shark', 'assets/shark.jpg'));
+picsAvailable.push(new Image('sweep', 'assets/sweep.png'));
+picsAvailable.push(new Image('tauntaun', 'assets/tauntaun.jpg'));
+picsAvailable.push(new Image('unicorn', 'assets/unicorn.jpg'));
+picsAvailable.push(new Image('water-can', 'assets/water-can.jpg'));
+picsAvailable.push(new Image('wine-glass', 'assets/wine-glass.jpg'));
 
 let btn = document.getElementById('resetButton');
 btn.style.backgroundColor = 'rgb(251, 174, 146)';
