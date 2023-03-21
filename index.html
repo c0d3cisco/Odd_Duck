@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Vote on Goats</title>
+    <title>Vote Odd Duck</title>
     <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <header>
-      <h1>Vote Tracking</h1>
-    </header>
+</head>
+
+<body>
     <main>
-      <h2>GRID</h2>
-      <section id="container">
-       <img>
-       <img> 
-       <img>
-      </section>
-      <form id="formInput">
-        <fieldset>
-            <legend>Select Number of Rounds</legend>
-            <div>
-                <label for="Number of rounds">Numbers of rounds: </label>
-                <input type="number" placeholder="25" id="numRounds" name="numOfRounds"> 
+        <section id="container">
+            <div id="item1">
+                <h1>Vote on your favorite</h1>
             </div>
-            <div>
-                <button>Click Me</button>
+            <div id="item2">
+                <form id="formInput">
+                    <fieldset>
+                        <legend>Select Number of Rounds</legend>
+                        <div>
+                            <label for="Number of rounds">Numbers of rounds: </label>
+                            <input type="number" placeholder="25" id="numRounds" name="numOfRounds">
+                        </div>
+                        <div>
+                            <button>Click Me</button>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
-        </fieldset>
-      </form>
-      <form id="resultForm">
-        <div>
-            <button>Click Me</button>
-        </div>
-        <ul id="resultList"></ul>
+            <div id="contatinerImg">
+                <div class="itemImg">
+                    <img>
+                </div>
+                <div class="itemImg">
+                    <img>
+                </div>
+                <div class="itemImg">
+                    <img>
+                </div>
+            </div>
+            <form id="resultForm">
+                <div id="buttonDiv">
+                    <button id="resetButton">Load Results</button>
+                </div>
+                <ul id="resultList"></ul>
+            </form>
     </main>
+    </section>
     <footer>
     </footer>
     <script src="js/app.js"></script>
-  </body>
+</body>
+
 </html>

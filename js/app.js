@@ -1,8 +1,9 @@
 'use strict';
 
 const picsAvailable = []; //initializes array of Objects
-let votingRounds = 25; //25
+let votingRounds = 26; //default is 25, but need to start at 26 since initiating the test counts as a votingRound
 
+// construct function 
 function Image(nameImg, source) {
     this.nameImg = nameImg
     this.timeClicked = 0;
@@ -13,13 +14,17 @@ function Image(nameImg, source) {
 Image.prototype.shownCounter = function () {
     this.shownTimes++;
 }
-
-Image.prototype.reset = function(){
+//resets both properties and list of results
+Image.prototype.reset = function () {
     this.timeClicked = 0;
     this.shownTimes = 0;
     renderPicture()
+    let listResults = document.getElementById('resultList');
+    listResults.innerHTML = "";
+    let btn = document.getElementById('resetButton');
+    btn.style.backgroundColor = 'rgb(186, 66, 10)';
 }
-
+//pushes construct into array
 picsAvailable.push(new Image('bag', '/assets/bag.jpg'));
 picsAvailable.push(new Image('banana', '/assets/banana.jpg'));
 picsAvailable.push(new Image('bathroom', '/assets/bathroom.jpg'));
@@ -30,13 +35,24 @@ picsAvailable.push(new Image('chair', '/assets/chair.jpg'));
 picsAvailable.push(new Image('cthulhu', '/assets/cthulhu.jpg'));
 picsAvailable.push(new Image('dog-duck', '/assets/dog-duck.jpg'));
 
+let btn = document.getElementById('resetButton');
+btn.style.backgroundColor = 'rgb(186, 66, 10)';
+btn.style.color = 'white';
+btn.style.border = '1px solid white';
+
 let imgEls = document.querySelectorAll('img');
-let voteTrackerEl = document.getElementById('container');
+let voteTrackerEl = document.getElementById('contatinerImg');
+let clickPic = ['click', '/assets/click.jpeg']
+// console.log(picsAvailable);
+// console.log(imgEls);
 
-console.log(picsAvailable);
-console.log(imgEls);
 
-renderPicture(votingRounds);
+imgEls[0].src = clickPic[1];
+imgEls[0].id = clickPic[0];
+imgEls[1].src = clickPic[1];
+imgEls[1].id = clickPic[0];
+imgEls[2].src = clickPic[1];
+imgEls[2].id = clickPic[0];
 
 function generateRandomPic() {
     return Math.floor(Math.random() * picsAvailable.length);
@@ -66,7 +82,7 @@ function renderPicture(votingRounds) {
         imgEls[1].id = pic2.nameImg;
         imgEls[2].src = pic3.source;
         imgEls[2].id = pic3.nameImg;
-    } else if (votingRounds <= 0){
+    } else if (votingRounds <= 0) {
         console.log(votingRounds);
         imgEls[0].src = thankYouPic[1];
         imgEls[0].id = thankYouPic[0];
@@ -74,7 +90,7 @@ function renderPicture(votingRounds) {
         imgEls[1].id = thankYouPic[0];
         imgEls[2].src = thankYouPic[1];
         imgEls[2].id = thankYouPic[0];
-    } else{
+    } else {
         imgEls[0].src = clickPic[1];
         imgEls[0].id = clickPic[0];
         imgEls[1].src = clickPic[1];
@@ -108,13 +124,17 @@ let eventID = voteTrackerEl.addEventListener('click', function (evt) {
     console.log(votingRounds);
     renderPicture(votingRounds);
 
+    if (votingRounds <= 0) {
+        let btn = document.getElementById('resetButton');
+        btn.style.backgroundColor = 'rgb(110, 255, 163)';
+    }
+
 
 })
 
 let formInputEl = document.getElementById('formInput');
 
-
-formInputEl.addEventListener('submit', function(evt){
+formInputEl.addEventListener('submit', function (evt) {
     evt.preventDefault();
     console.log(evt);
     let numbSelected = parseInt(evt.srcElement[1].value);
@@ -124,24 +144,24 @@ formInputEl.addEventListener('submit', function(evt){
         pictureObject.reset();
     })
     return votingRounds = numbSelected + 1;
-
 })
 
 let formResultEl = document.getElementById('resultForm');
-
-formResultEl.addEventListener('submit', function(evt){
+formResultEl.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    debugger;
+    // debugger;
     let x = picsAvailable;
     let listResults = document.getElementById('resultList');
     console.log(listResults);
-        listResults.innerHTML = "";
-    picsAvailable.forEach(picture =>{
-        let listItem = document.createElement('li');
-        listItem.textContent = `${picture.nameImg} had ${picture.timeClicked} votes, and was seen ${picture.shownTimes} times.`;
-        listResults.appendChild(listItem);
-        debugger;
-    })
-    
-})
+    listResults.innerHTML = "";
+    console.log(votingRounds);
+    if (votingRounds <= 0) {
+        picsAvailable.forEach(picture => {
+            let listItem = document.createElement('li');
+            listItem.textContent = `${picture.nameImg} had ${picture.timeClicked} votes, and was seen ${picture.shownTimes} times.`;
+            listResults.appendChild(listItem);
+            // debugger;
+        })
+    }
+});
 
