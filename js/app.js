@@ -23,6 +23,7 @@ Image.prototype.reset = function () {
     listResults.innerHTML = "";
     let btn = document.getElementById('resetButton');
     btn.style.backgroundColor = 'rgb(251, 174, 146)';
+    voteTrackerEl.addEventListener('click', handleButtonClick);
 }
 //pushes construct into array
 picsAvailable.push(new Image('bag', 'assets/bag.jpg'));
@@ -115,7 +116,9 @@ function renderPicture(votingRounds) {
 
 
 
-let eventID = voteTrackerEl.addEventListener('click', function (evt) {
+voteTrackerEl.addEventListener('click', handleButtonClick);
+
+function handleButtonClick(evt) {
     console.log(evt.target); // EVENT.TARGET ALWAYS REPRESENTS THE EXACT ELEMENT WHERE AN EVENT OCCURRED
 
     //identify which image it was clicked on
@@ -134,17 +137,19 @@ let eventID = voteTrackerEl.addEventListener('click', function (evt) {
     console.log(votingRounds);
     renderPicture(votingRounds);
 
-    if (votingRounds <= 0) {
+    if (votingRounds) {
         let btn = document.getElementById('resetButton');
+    } else {
         btn.style.backgroundColor = 'rgb(110, 255, 163)';
+        voteTrackerEl.removeEventListener('click', handleButtonClick);
     }
-
-
-})
+};
 
 let formInputEl = document.getElementById('formInput');
 
-formInputEl.addEventListener('submit', function (evt) {
+formInputEl.addEventListener('submit', handleInputClick)
+
+function handleInputClick(evt) {
     evt.preventDefault();
     console.log(evt);
     let numbSelected = parseInt(evt.srcElement[1].value);
@@ -153,8 +158,11 @@ formInputEl.addEventListener('submit', function (evt) {
     picsAvailable.forEach(pictureObject => {
         pictureObject.reset();
     })
+    if(votingRounds === 0){
+        formInputEl.removeEventListener('submit', handleInputClick);
+    }
     return votingRounds = numbSelected + 1;
-})
+}
 
 let formResultEl = document.getElementById('resultForm');
 formResultEl.addEventListener('submit', function (evt) {
@@ -174,4 +182,3 @@ formResultEl.addEventListener('submit', function (evt) {
         })
     }
 });
-
