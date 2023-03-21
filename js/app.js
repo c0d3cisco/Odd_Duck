@@ -25,15 +25,15 @@ Image.prototype.reset = function () {
     btn.style.backgroundColor = 'rgb(251, 174, 146)';
 }
 //pushes construct into array
-picsAvailable.push(new Image('bag', '/assets/bag.jpg'));
-picsAvailable.push(new Image('banana', '/assets/banana.jpg'));
-picsAvailable.push(new Image('bathroom', '/assets/bathroom.jpg'));
-picsAvailable.push(new Image('boots', '/assets/boots.jpg'));
-picsAvailable.push(new Image('breakfast', '/assets/breakfast.jpg'));
-picsAvailable.push(new Image('bubblegum', '/assets/bubblegum.jpg'));
-picsAvailable.push(new Image('chair', '/assets/chair.jpg'));
-picsAvailable.push(new Image('cthulhu', '/assets/cthulhu.jpg'));
-picsAvailable.push(new Image('dog-duck', '/assets/dog-duck.jpg'));
+picsAvailable.push(new Image('bag', 'assets/bag.jpg'));
+picsAvailable.push(new Image('banana', 'assets/banana.jpg'));
+picsAvailable.push(new Image('bathroom', 'assets/bathroom.jpg'));
+picsAvailable.push(new Image('boots', 'assets/boots.jpg'));
+picsAvailable.push(new Image('breakfast', 'assets/breakfast.jpg'));
+picsAvailable.push(new Image('bubblegum', 'assets/bubblegum.jpg'));
+picsAvailable.push(new Image('chair', 'assets/chair.jpg'));
+picsAvailable.push(new Image('cthulhu', 'assets/cthulhu.jpg'));
+picsAvailable.push(new Image('dog-duck', 'assets/dog-duck.jpg'));
 
 let btn = document.getElementById('resetButton');
 btn.style.backgroundColor = 'rgb(251, 174, 146)';
@@ -42,7 +42,7 @@ btn.style.border = '1px solid black';
 
 let imgEls = document.querySelectorAll('img');
 let voteTrackerEl = document.getElementById('contatinerImg');
-let clickPic = ['click', '/assets/click.jpeg']
+let clickPic = ['click', 'assets/click.jpeg']
 // console.log(picsAvailable);
 // console.log(imgEls);
 
@@ -63,13 +63,13 @@ function renderPicture(votingRounds) {
     let pic1 = picsAvailable[generateRandomPic()];
     let pic2 = picsAvailable[generateRandomPic()];
     let pic3 = picsAvailable[generateRandomPic()];
-    let thankYouPic = ['thank-you', '/assets/thankYouImage.jpeg']
-    let clickPic = ['click', '/assets/click.jpeg']
+    let thankYouPic = ['thank-you', 'assets/thankYouImage.jpeg']
+    let clickPic = ['click', 'assets/click.jpeg']
     console.log("Pictures to render", imgEls, pic1, pic2, pic3)
 
     while (pic1.nameImg === pic2.nameImg || pic3.nameImg === pic2.nameImg || pic1.nameImg === pic3.nameImg) {
         pic2 = picsAvailable[generateRandomPic()];
-        pic3 = picsAvailable[generateRandomPic()]
+        pic3 = picsAvailable[generateRandomPic()];
     }
     console.log(votingRounds);
     if (votingRounds > 0) {
