@@ -22,7 +22,7 @@ Image.prototype.reset = function () {
     let listResults = document.getElementById('resultList');
     listResults.innerHTML = "";
     let btn = document.getElementById('resetButton');
-    btn.style.backgroundColor = 'rgb(186, 66, 10)';
+    btn.style.backgroundColor = 'rgb(251, 174, 146)';
 }
 //pushes construct into array
 picsAvailable.push(new Image('bag', '/assets/bag.jpg'));
@@ -36,9 +36,9 @@ picsAvailable.push(new Image('cthulhu', '/assets/cthulhu.jpg'));
 picsAvailable.push(new Image('dog-duck', '/assets/dog-duck.jpg'));
 
 let btn = document.getElementById('resetButton');
-btn.style.backgroundColor = 'rgb(186, 66, 10)';
-btn.style.color = 'white';
-btn.style.border = '1px solid white';
+btn.style.backgroundColor = 'rgb(251, 174, 146)';
+btn.style.color = 'black';
+btn.style.border = '1px solid black';
 
 let imgEls = document.querySelectorAll('img');
 let voteTrackerEl = document.getElementById('contatinerImg');
