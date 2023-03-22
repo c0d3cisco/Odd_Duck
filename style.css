@@ -29,9 +29,19 @@
 
 #item2{
     grid-column-start: 2;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+#item3{
+    grid-column-start: 5;
     grid-column-end: 6;
     grid-row-start: 2;
     grid-row-end: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 img{
@@ -85,6 +95,10 @@ img{
     color: white;
     font-size: larger;
     font-weight: bolder;
+}
+
+#resetButton:target{
+    color: orange;
 }
 
 #canvas-container{
