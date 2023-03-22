@@ -6,6 +6,14 @@ let chartObj = null;
 let labels = [];
 let shownValues = [];
 let clickedValues = [];
+let storedViews = readData('storedViews');
+let storedClicks = readData('storedClicks');
+let preventMultipleAdds = 0;
+
+
+// let storedViews = [1,2,3,4,5,6,7,8,9,1,1,2,3,4,5,6,7,8,9];
+// let storedClicks = [1,2,3,4,5,6,7,8,9,1,1,2,3,4,5,6,7,8,9];
+
 
 
 // construct function 
@@ -19,6 +27,7 @@ function Image(nameImg, source) {
 Image.prototype.shownCounter = function () {
     this.shownTimes++;
 }
+
 //resets both properties and list of results
 Image.prototype.resetAction = function () {
     // voteTrackerEl.addEventListener('click', handleButtonClick);
@@ -52,6 +61,10 @@ picsAvailable.push(new Image('tauntaun', 'assets/tauntaun.jpg'));
 picsAvailable.push(new Image('unicorn', 'assets/unicorn.jpg'));
 picsAvailable.push(new Image('water-can', 'assets/water-can.jpg'));
 picsAvailable.push(new Image('wine-glass', 'assets/wine-glass.jpg'));
+
+picsAvailable.forEach(distinctValue => {
+        labels.push(distinctValue.nameImg);
+});
 
 let btn = document.getElementById('resetButton');
 btn.style.backgroundColor = 'rgb(120, 120, 120)';
@@ -93,7 +106,7 @@ function renderPicture(votingRounds) {// renders picture first round? Not update
         pic2 = picsAvailable[generateRandomPic()];
         pic3 = picsAvailable[generateRandomPic()];
     }
-    console.log('FINAL  ', imgEls[0].id, imgEls[1].id, imgEls[2].id, ' COMPARE ', pic1.nameImg, pic2.nameImg, pic3.nameImg);
+    // console.log('FINAL  ', imgEls[0].id, imgEls[1].id, imgEls[2].id, ' COMPARE ', pic1.nameImg, pic2.nameImg, pic3.nameImg);
     //console.log("Pictures to render", imgEls, pic1, pic2, pic3)
 
     //console.log(votingRounds);
@@ -107,6 +120,7 @@ function renderPicture(votingRounds) {// renders picture first round? Not update
         imgEls[1].id = pic2.nameImg;
         imgEls[2].src = pic3.source;
         imgEls[2].id = pic3.nameImg;
+        preventMultipleAdds = 0;
     } else if (votingRounds <= 0) {
         //console.log(votingRounds);
         imgEls[0].src = thankYouPic[1];
@@ -176,55 +190,58 @@ function handleInputClick(evt) { // saves numerical input
     console.log(votingRounds);
     //debugger;
     
-    return votingRounds = numbSelected + 1;
+    return votingRounds = numbSelected + 1; // this one accounts for the starting screen
 }
 
 let formResultEl = document.getElementById('resultForm');
-formResultEl.addEventListener('submit', function (evt) {
+formResultEl.addEventListener('submit', loadForm);
+function loadForm(evt) {
     evt.preventDefault();
-    // debugger;
-    let x = picsAvailable;
     let listResults = document.getElementById('resultList');
     //console.log(listResults);
     listResults.innerHTML = "";
     //console.log(votingRounds);
     let chartContainer = document.getElementById('canvas-container');
-    if (votingRounds <= 0) {
+    if (votingRounds <= 0 && preventMultipleAdds === 0) {
+        storedViews = readData('storedViews');
+        storedClicks = readData('storedClicks');
+        arrayAccumulation(storedViews, storedClicks);
         if (chartObj === null) {
-            chartObj = drawChart();
+            chartObj = drawChart(labels, storedViews, storedClicks);
             chartContainer.style.backgroundColor = 'white';
         } else {
-            updateChart()
+            console.log(storedViews, storedClicks);
+            // debugger;
+            updateChart(storedViews, storedClicks);
         }
-        console.log("CHART OBJECT TO UPDATE", chartObj);
+        //console.log("CHART OBJECT TO UPDATE", chartObj);
         picsAvailable.forEach(picture => {
             let listItem = document.createElement('li');
             listItem.textContent = `${picture.nameImg} had ${picture.timeClicked} votes, and was seen ${picture.shownTimes} times.`;
             listResults.appendChild(listItem);
             // debugger;
         })
+        return preventMultipleAdds = 1;
     }
-});
+};
 
 
 const canvasEl = document.getElementById('draw-on-me');
 
-function drawChart() {
-
-    getArrayViews_Clicks(picsAvailable, labels, shownValues, clickedValues);
+function drawChart(labels, storedViews, storedClicks) {
 
     return new Chart(canvasEl, {
         type: 'bar',
         data: {
-            labels: labels,
+            labels: labels, //HARD CODE THIS
             datasets: [{
                 label: 'Times Seen',
-                data: shownValues,
+                data: storedViews,//shownValues,
                 borderWidth: 1,
                 backgroundColor: 'rgba(252, 186, 3, 0.5)',
             }, {
                 label: 'Times Clicks',
-                data: clickedValues,
+                data: storedClicks, //clickedValues,
                 borderWidth: 1,
                 backgroundColor: 'rgba(252, 90, 3, 0.5)',
             }]
@@ -250,38 +267,38 @@ function drawChart() {
     });
 }
 
-function getArrayViews_Clicks(picsAvailable, labels, shownValues, clickedValues) {
-    picsAvailable.forEach(distinctValue => {
-        labels.push(distinctValue.nameImg);
-        shownValues.push(distinctValue.shownTimes);
-        clickedValues.push(distinctValue.timeClicked);
-    })
-};
+// function getArrayViews_Clicks(picsAvailable, labels, shownValues, clickedValues) {
+//     picsAvailable.forEach(distinctValue => {
+//         labels.push(distinctValue.nameImg);
+//         shownValues.push(distinctValue.shownTimes);
+//         clickedValues.push(distinctValue.timeClicked);
+//     })
+// };
 
-function updateChart() {
+function updateChart(storedViews, storedClicks) {
     // console.log("CHART OBJECT TO UPDATE", chartObj.data);
 
-    let shownValues = [];
-    let clickedValues = [];
-
-    picsAvailable.forEach(distinctValue => {
-        shownValues.push(distinctValue.shownTimes);
-        clickedValues.push(distinctValue.timeClicked);
-    });
-
-    let storedViews = readData('storedViews');
-    let storedClicks = readData('storedClicks');
-
-    for(let i = 0; i>storedViews.length; i++){
-        storedViews[i] = shownValues[i] + storedViews[i];
-        storedClicks[i] = clickedValues[i] + storedClicks[i];
-    }
 
     chartObj.data.datasets[0].data = storedViews;
     chartObj.data.datasets[1].data = storedClicks;
     chartObj.update();
 };
 
+let resetButton = document.getElementById('resetLocal');
+
+resetButton.addEventListener('click', resetLocalStorage)
+function resetLocalStorage(evt){
+    evt.preventDefault();
+    let storedViews = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    let storedClicks = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    writeData('storedViews', storedViews);
+    writeData('storedClicks', storedClicks);
+    updateChart(storedViews, storedClicks);
+    storedViews = readData('storedViews');
+    storedClicks = readData('storedClicks');
+    console.log('IM CLEARING' + readData('storedViews'))
+    return storedViews, storedClicks;
+}
 
 function writeData (key, value) {
     localStorage.setItem(key, JSON.stringify(value));
@@ -292,6 +309,41 @@ function readData (key) {
 };
 
 
+
+
+
+
+
+
+
+function  arrayAccumulation(storedViews, storedClicks){
+    // debugger;
+
+    if (storedViews === null || storedClicks === null){
+        resetLocalArray();
+        console.log('FIRST DRAW AFTER REFRESH' + storedViews);
+        console.log('FIRST DRAW AFTER REFRESH' + storedClicks);
+    }
+
+    let shownValues = [];
+    let clickedValues = [];
+    picsAvailable.forEach(distinctValue => {
+        shownValues.push(distinctValue.shownTimes);
+        clickedValues.push(distinctValue.timeClicked);
+    });
+    // debugger;
+    for(let i = 0; i<storedViews.length; i++){
+        storedViews[i] = shownValues[i] + storedViews[i];
+        storedClicks[i] = clickedValues[i] + storedClicks[i];
+    }
+    writeData('storedViews', storedViews);
+    writeData('storedClicks', storedClicks);
+    return storedViews, storedClicks;
+};
+
+
+
+
 // currentClickArray
 // currentCountArray
 // picsAvailable.forEach(picture)
@@ -299,13 +351,37 @@ function readData (key) {
 // finalClickArray
 
 
-let resetButton = document.getElementById('resetLocal');
 
-resetButton.addEventListener('click', (evt) =>{
-    evt.preventDefault();
+function resetLocalArray(){
     let storedViews = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     let storedClicks = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     writeData('storedViews', storedViews);
     writeData('storedClicks', storedClicks);
-    console.log('IM CLEARING')
-})
+
+
+    return storedViews, storedClicks;
+}
+
+// let storedViews = readData('storedViews');
+// let storedClicks = readData('storedClicks');
+
+
+
+//this will get the count for the current round 
+
+    // getArrayViews_Clicks(picsAvailable, labels, shownValues, clickedValues);
+    
+    // picsAvailable.forEach(distinctValue => {
+        //     labels.push(distinctValue.nameImg);
+        //     shownValues.push(distinctValue.shownTimes);
+        //     clickedValues.push(distinctValue.timeClicked);
+        // });
+
+
+
+
+
+
+
+
+
