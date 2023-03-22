@@ -235,22 +235,33 @@ function drawChart(){
             label: 'Times Seen',
             data: shownValues,
             borderWidth: 1,
-            backgroundColor: '#fcba03',
+            backgroundColor: 'rgba(252, 186, 3, 0.5)',
           }, {
             label: 'Times Clicks',
             data: clickedValues,
             borderWidth: 1,
-            backgroundColor: '#fc5a03',
+            backgroundColor: 'rgba(252, 90, 3, 0.5)',
           }]
         },
         options: {
-          scales: {
-            y: {
-              beginAtZero: true
+            indexAxis: 'y',
+            elements: {
+              bar: {
+                borderWidth: 2,
+              }
+            },
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'bottom',
+              },
+              title: {
+                display: true,
+                text: 'Total Views vs Total Clicks per Image'
+              }
             }
-          }
-        }
-    });
+          },
+        });
 }
     
 
