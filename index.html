@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width">
     <title>Vote Odd Duck</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
     <main>
         <section id="container">
             <div id="item1">
-                <h1>Vote on your favorite</h1>
+                <h1>Which Item is You Favorite?</h1>
             </div>
             <div id="item2">
                 <form id="formInput">
@@ -30,26 +31,28 @@
             </div>
             <div id="contatinerImg">
                 <div class="itemImg">
-                    <img>
+                    <img alt="firstRandom Image">
                 </div>
                 <div class="itemImg">
-                    <img>
+                    <img alt="Second Image">
                 </div>
                 <div class="itemImg">
-                    <img>
+                    <img alt="third Image">
                 </div>
             </div>
             <form id="resultForm">
                 <div id="buttonDiv">
                     <button id="resetButton">Load Results</button>
                 </div>
-                <ul id="resultList"></ul>
-            </form>
+            </form>            
+            <ul id="resultList"></ul>
+            <section id="canvas-container">
+                <canvas id ="draw-on-me" width="450" height="200"> <p>You need Chart.js to see this</p></canvas>
+            </section>
+        </section>
     </main>
-    </section>
     <footer>
     </footer>
     <script src="js/app.js"></script>
 </body>
-
 </html>
