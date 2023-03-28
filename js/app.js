@@ -6,8 +6,8 @@ let chartObj = null;
 let labels = [];
 let shownValues = [];
 let clickedValues = [];
-let storedViews = readData('storedViews');
-let storedClicks = readData('storedClicks');
+let storedViews = [];
+let storedClicks = [];
 let preventMultipleAdds = 0;
 
 
@@ -202,8 +202,8 @@ function loadForm(evt) {
   //console.log(votingRounds);
   let chartContainer = document.getElementById('canvas-container');
   if (votingRounds <= 0 && preventMultipleAdds === 0) {
-    storedViews = readData('storedViews');
-    storedClicks = readData('storedClicks');
+    storedViews = (readData('storedViews') || [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+    storedClicks = (readData('storedClicks') || [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
     arrayAccumulation(storedViews, storedClicks);
     if (chartObj === null) {
       chartObj = drawChart(labels, storedViews, storedClicks);
@@ -319,9 +319,11 @@ function arrayAccumulation(storedViews, storedClicks){
   // debugger;
 
   if (storedViews === null || storedClicks === null){
+    // debugger;
     resetLocalArray();
     console.log('FIRST DRAW AFTER REFRESH' + storedViews);
     console.log('FIRST DRAW AFTER REFRESH' + storedClicks);
+    // return storedClicks, storedViews;
   }
 
   let shownValues = [];
